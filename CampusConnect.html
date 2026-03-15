@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusBuddy - Your Campus Companion</title>
+    
+    <!-- Leaflet CSS for maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .login-btn {
+            background: white;
+            color: #667eea !important;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        /* Left Column */
+        .left-col {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Search Bar */
+        .search-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .search-box button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .search-box button:hover {
+            background: #764ba2;
+        }
+
+        .search-results {
+            margin-top: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .search-result-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .search-result-item:hover {
+            background: #f5f5f5;
+        }
+
+        /* Map Section */
+        .map-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+            border-radius: 10px;
+            margin-top: 10px;
+            z-index: 1;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .action-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .action-card i {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .action-card span {
+            display: block;
+            font-weight: 500;
+        }
+
+        /* Right Column */
+        .right-col {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Updates Section */
+        .updates-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .section-title i {
+            color: #667eea;
+            font-size: 1.5rem;
+        }
+
+        .update-item {
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .update-cancelled {
+            border-left-color: #dc3545;
+        }
+
+        .update-cafe {
+            border-left-color: #28a745;
+        }
+
+        /* Booking Section */
+        .booking-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .room-type {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .room-btn {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            background: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .room-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .time-slot {
+            padding: 8px;
+            text-align: center;
+            background: #f0f2f5;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .time-slot:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .time-slot.booked {
+            background: #dc3545;
+            color: white;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        /* Clubs Section */
+        .clubs-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .club-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .club-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .club-info h4 {
+            margin-bottom: 5px;
+        }
+
+        .club-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .register-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        /* Buddy Help Section */
+        .buddy-section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .buddy-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .buddy-tab {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: #f0f2f5;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .buddy-tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .listing-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .contact-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .modal-content input, .modal-content textarea, .modal-content select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+        }
+
+        .modal-content button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+        }
+
+        .close-modal {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* Oculus Button */
+        .oculus-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: background 0.3s;
+        }
+
+        .oculus-btn:hover {
+            background: #218838;
+        }
+
+        /* Chill Spots */
+        .chill-spot {
+            padding: 12px;
+            background: #e8f4fd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .spot-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .spot-details {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>CampusBuddy</span>
+        </div>
+        <div class="nav-links">
+            <a href="#"><i class="fas fa-home"></i> Home</a>
+            <a href="#"><i class="fas fa-map"></i> Map</a>
+            <a href="#"><i class="fas fa-calendar"></i> Schedule</a>
+            <a href="#"><i class="fas fa-users"></i> Clubs</a>
+            <a href="#" class="login-btn"><i class="fas fa-user"></i> Login</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Left Column -->
+        <div class="left-col">
+            <!-- Search Section -->
+            <div class="search-section">
+                <h3><i class="fas fa-search"></i> Find Anything on Campus</h3>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search for rooms, buildings, offices...">
+                    <button onclick="searchLocations()"><i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div id="searchResults" class="search-results"></div>
+            </div>
+
+            <!-- Map Section -->
+            <div class="map-section">
+                <h3><i class="fas fa-map-marked-alt"></i> Campus Map</h3>
+                <div id="map"></div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <div class="action-card" onclick="openBookingModal()">
+                    <i class="fas fa-door-open"></i>
+                    <span>Book Room</span>
+                </div>
+                <div class="action-card" onclick="openBuddyModal()">
+                    <i class="fas fa-handshake"></i>
+                    <span>Buddy Help</span>
+                </div>
+                <div class="action-card" onclick="openClubModal()">
+                    <i class="fas fa-calendar-plus"></i>
+                    <span>Club Events</span>
+                </div>
+                <div class="action-card" onclick="showChillSpots()">
+                    <i class="fas fa-tree"></i>
+                    <span>Chill Spots</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="right-col">
+            <!-- Real-time Updates -->
+            <div class="updates-section">
+                <div class="section-title">
+                    <i class="fas fa-bell"></i>
+                    <h3>Real-time Updates</h3>
+                </div>
+                <div id="updatesList">
+                    <div class="update-item update-cancelled">
+                        <strong>⚠️ CS101 Cancelled</strong><br>
+                        Dr. Smith - 10:00 AM today
+                    </div>
+                    <div class="update-item">
+                        <strong>📚 Library</strong><br>
+                        65% occupied • 12 quiet seats available
+                    </div>
+                    <div class="update-item update-cafe">
+                        <strong>☕ Campus Cafe</strong><br>
+                        Wait time: 5 mins • Today's special: Burger Day
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Booking -->
+            <div class="booking-section">
+                <div class="section-title">
+                    <i class="fas fa-calendar-check"></i>
+                    <h3>Quick Book</h3>
+                </div>
+                <div class="room-type">
+                    <button class="room-btn active" onclick="filterRooms('study')">Study Room</button>
+                    <button class="room-btn" onclick="filterRooms('music')">Music Room</button>
+                    <button class="room-btn" onclick="filterRooms('lab')">Lab</button>
+                </div>
+                <div id="availableRooms">
+                    <div class="club-card">
+                        <div class="club-icon"><i class="fas fa-book"></i></div>
+                        <div class="club-info">
+                            <h4>Study Room 101</h4>
+                            <p>Engineering Block • 4 seats</p>
+                        </div>
+                        <button class="register-btn" onclick="quickBook('Study Room 101')">Book</button>
+                    </div>
+                    <div class="club-card">
+                        <div class="club-icon"><i class="fas fa-music"></i></div>
+                        <div class="club-info">
+                            <h4>Music Room A</h4>
+                            <p>Arts Building • Piano available</p>
+                        </div>
+                        <button class="register-btn" onclick="quickBook('Music Room A')">Book</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Club Events -->
+            <div class="clubs-section">
+                <div class="section-title">
+                    <i class="fas fa-users"></i>
+                    <h3>Upcoming Club Events</h3>
+                </div>
+                <div id="clubEvents">
+                    <div class="club-card">
+                        <div class="club-icon"><i class="fas fa-code"></i></div>
+                        <div class="club-info">
+                            <h4>Coding Club</h4>
+                            <p>Hackathon Workshop • Today 5pm</p>
+                        </div>
+                        <button class="register-btn" onclick="registerEvent('Coding Club')">Join</button>
+                    </div>
+                    <div class="club-card">
+                        <div class="club-icon"><i class="fas fa-camera"></i></div>
+                        <div class="club-info">
+                            <h4>Photography Club</h4>
+                            <p>Sunset Shoot • Tomorrow 6pm</p>
+                        </div>
+                        <button class="register-btn" onclick="registerEvent('Photography Club')">Join</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buddy Help -->
+            <div class="buddy-section">
+                <div class="section-title">
+                    <i class="fas fa-hands-helping"></i>
+                    <h3>Buddy Help</h3>
+                </div>
+                <div class="buddy-tabs">
+                    <button class="buddy-tab active" onclick="filterHelp('offering')">Offering</button>
+                    <button class="buddy-tab" onclick="filterHelp('seeking')">Seeking</button>
+                </div>
+                <div id="helpListings">
+                    <div class="listing-item">
+                        <div>
+                            <strong><i class="fas fa-chalkboard-teacher"></i> Python Tutoring</strong><br>
+                            <small>Alice • 2nd Year CS</small>
+                        </div>
+                        <button class="contact-btn" onclick="contactBuddy('Alice')">Contact</button>
+                    </div>
+                    <div class="listing-item">
+                        <div>
+                            <strong><i class="fas fa-book"></i> Calculus Textbook</strong><br>
+                            <small>Bob • $20 • Like new</small>
+                        </div>
+                        <button class="contact-btn" onclick="contactBuddy('Bob')">Contact</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Oculus Access -->
+            <button class="oculus-btn" onclick="openOculus()">
+                <i class="fas fa-vr-cardboard"></i>
+                Launch Oculus Portal
+            </button>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('bookingModal')">&times;</span>
+            <h2><i class="fas fa-door-open"></i> Book a Room</h2>
+            <select id="roomSelect">
+                <option>Study Room 101 - Engineering</option>
+                <option>Music Room A - Arts</option>
+                <option>CS Lab 201 - CS Building</option>
+                <option>Group Study - Library</option>
+            </select>
+            <input type="date" id="bookingDate">
+            <div class="time-slots">
+                <div class="time-slot" onclick="selectTime('9:00')">9:00 AM</div>
+                <div class="time-slot" onclick="selectTime('10:00')">10:00 AM</div>
+                <div class="time-slot" onclick="selectTime('11:00')">11:00 AM</div>
+                <div class="time-slot" onclick="selectTime('12:00')">12:00 PM</div>
+                <div class="time-slot" onclick="selectTime('13:00')">1:00 PM</div>
+                <div class="time-slot" onclick="selectTime('14:00')">2:00 PM</div>
+            </div>
+            <button onclick="confirmBooking()">Confirm Booking</button>
+        </div>
+    </div>
+
+    <!-- Buddy Help Modal -->
+    <div id="buddyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('buddyModal')">&times;</span>
+            <h2><i class="fas fa-handshake"></i> Offer Help</h2>
+            <select id="helpType">
+                <option value="skill">Skill (Tutoring, Language, etc.)</option>
+                <option value="resource">Resource (Textbooks, Notes, etc.)</option>
+            </select>
+            <input type="text" id="helpTitle" placeholder="Title e.g., Python Tutoring">
+            <textarea id="helpDescription" placeholder="Description..." rows="3"></textarea>
+            <input type="text" id="helpContact" placeholder="Your email">
+            <button onclick="postHelp()">Post Listing</button>
+        </div>
+    </div>
+
+    <!-- Club Modal -->
+    <div id="clubModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('clubModal')">&times;</span>
+            <h2><i class="fas fa-calendar-plus"></i> Create Club Event</h2>
+            <input type="text" id="clubName" placeholder="Club Name">
+            <input type="text" id="eventTitle" placeholder="Event Title">
+            <input type="date" id="eventDate">
+            <input type="time" id="eventTime">
+            <input type="text" id="eventLocation" placeholder="Location">
+            <textarea id="eventDescription" placeholder="Event Description..." rows="3"></textarea>
+            <button onclick="createEvent()">Create Event</button>
+        </div>
+    </div>
+
+    <!-- Chill Spots Modal -->
+    <div id="chillModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('chillModal')">&times;</span>
+            <h2><i class="fas fa-tree"></i> Relaxation Spots</h2>
+            <div id="chillSpotsList">
+                <div class="chill-spot">
+                    <div class="spot-name">🌳 Secret Garden</div>
+                    <div class="spot-details">
+                        <span><i class="fas fa-users"></i> Low traffic</span>
+                        <span><i class="fas fa-sun"></i> Best afternoon</span>
+                    </div>
+                </div>
+                <div class="chill-spot">
+                    <div class="spot-name">📚 Library Lounge</div>
+                    <div class="spot-details">
+                        <span><i class="fas fa-wifi"></i> WiFi</span>
+                        <span><i class="fas fa-quiet"></i> Quiet zone</span>
+                    </div>
+                </div>
+                <div class="chill-spot">
+                    <div class="spot-name">☕ Cafe Corner</div>
+                    <div class="spot-details">
+                        <span><i class="fas fa-coffee"></i> Coffee nearby</span>
+                        <span><i class="fas fa-plug"></i> Charging ports</span>
+                    </div>
+                </div>
+                <div class="chill-spot">
+                    <div class="spot-name">🏛️ Rooftop Terrace</div>
+                    <div class="spot-details">
+                        <span><i class="fas fa-cloud-sun"></i> Outdoor</span>
+                        <span><i class="fas fa-eye"></i> Great view</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script>
+        // ==================== CAMPUS DATA ====================
+        const campusLocations = [
+            { id: "CS101", name: "Computer Science Lab", building: "Engineering", floor: 2, type: "lab", lat: 40.7128, lng: -74.0060, icon: "💻" },
+            { id: "LIB", name: "Main Library", building: "Library", type: "library", lat: 40.7130, lng: -74.0065, icon: "📚" },
+            { id: "MUSIC", name: "Music Room", building: "Arts", floor: 1, type: "room", lat: 40.7125, lng: -74.0055, icon: "🎵" },
+            { id: "CAFE", name: "Campus Cafe", building: "Student Center", type: "cafe", lat: 40.7122, lng: -74.0058, icon: "☕" },
+            { id: "ENG101", name: "Engineering Lecture Hall", building: "Engineering", floor: 1, type: "classroom", lat: 40.7129, lng: -74.0062, icon: "🔧" },
+            { id: "ADMIN", name: "Admin Office", building: "Administration", type: "office", lat: 40.7132, lng: -74.0059, icon: "📋" }
+        ];
+
+        // ==================== MAP INITIALIZATION ====================
+        let map;
+        let markers = [];
+
+        function initMap() {
+            map = L.map('map').setView([40.7128, -74.0060], 16);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Add markers for all locations
+            campusLocations.forEach(loc => {
+                const marker = L.marker([loc.lat, loc.lng]).addTo(map);
+                marker.bindPopup(`<b>${loc.icon} ${loc.name}</b><br>${loc.building}<br>${loc.type}`);
+                markers.push(marker);
+            });
+        }
+
+        // ==================== SEARCH FUNCTIONALITY ====================
+        function searchLocations() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const resultsDiv = document.getElementById('searchResults');
+            
+            if (query.length < 2) {
+                resultsDiv.style.display = 'none';
+                return;
+            }
+
+            const results = campusLocations.filter(loc => 
+                loc.name.toLowerCase().includes(query) ||
+                loc.building.toLowerCase().includes(query) ||
+                loc.type.toLowerCase().includes(query)
+            );
+
+            if (results.length > 0) {
+                resultsDiv.innerHTML = results.map(loc => 
+                    `<div class="search-result-item" onclick="goToLocation(${loc.lat}, ${loc.lng}, '${loc.name}')">
+                        ${loc.icon} ${loc.name} - ${loc.building}
+                    </div>`
+                ).join('');
+                resultsDiv.style.display = 'block';
+            } else {
+                resultsDiv.innerHTML = '<div class="search-result-item">No locations found</div>';
+                resultsDiv.style.display = 'block';
+            }
+        }
+
+        function goToLocation(lat, lng, name) {
+            map.setView([lat, lng], 18);
+            document.getElementById('searchResults').style.display = 'none';
+            document.getElementById('searchInput').value = name;
+            
+            // Highlight marker
+            markers.forEach(marker => {
+                const markerLatLng = marker.getLatLng();
+                if (markerLatLng.lat === lat && markerLatLng.lng === lng) {
+                    marker.openPopup();
+                }
+            });
+        }
+
+        // ==================== MODAL FUNCTIONS ====================
+        function openBookingModal() {
+            document.getElementById('bookingModal').style.display = 'flex';
+        }
+
+        function openBuddyModal() {
+            document.getElementById('buddyModal').style.display = 'flex';
+        }
+
+        function openClubModal() {
+            document.getElementById('clubModal').style.display = 'flex';
+        }
+
+        function showChillSpots() {
+            document.getElementById('chillModal').style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // ==================== BOOKING FUNCTIONS ====================
+        let selectedTime = '';
+
+        function filterRooms(type) {
+            const buttons = document.querySelectorAll('.room-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update available rooms based on type
+            const roomsDiv = document.getElementById('availableRooms');
+            if (type === 'study') {
+                roomsDiv.innerHTML = `
+                    <div class="club-card">
+                        <div class="club-icon"><i class="fas fa-book"></i></div>
+                        <div class="club-info">
+                            <h4>Study Room 101</h4>
+                            <p>Engineering Block • 4 seats</p>
+                        </div>
+                        <button class="register-btn" onclick="quickBook('Study Room 101')">Book</button>
+                    </div>
+                    <div class="club-card">
+                        <div class="club-icon"><i class="fas fa-book"></i></div>
+                        <div class="club-info">
+                            <h4>Study Room 102</h4>
+                            <p>Library • 6 seats • Whiteboard</p>
+                        </div>
+                        <button class="register-btn" onclick="quickBook('Study Room 102')">Book</button>
+                    </div>
+                `;
+            } else if (type === 'music') {
+                roomsDiv.innerHTML = `
+                    <div class="club-card">
+                        <div class="club-icon"><i class="fas fa-music"></i></div>
+                        <div class="club-info">
+                            <h4>Music Room A</h4>
+                            <p>Arts Building • Piano, Drums</p>
+                        </div>
+                        <button class="register-btn" onclick="quickBook('Music Room A')">Book</button>
+                    </div>
+                    <div class="club-card">
+                        <div class="club-icon"><i class="fas fa-music"></i></div>
+                        <div class="club-info">
+                            <h4>Music Room B</h4>
+                            <p>Arts Building • Guitars, Amp</p>
+                        </div>
+                        <button class="register-btn" onclick="quickBook('Music Room B')">Book</button>
+                    </div>
+                `;
+            } else if (type === 'lab') {
+                roomsDiv.innerHTML = `
+                    <div class="club-card">
+                        <div class="club-icon"><i class="fas fa-flask"></i></div>
+                        <div class="club-info">
+                            <h4>CS Lab 201</h4>
+                            <p>Engineering • 20 computers</p>
+                        </div>
+                        <button class="register-btn" onclick="quickBook('CS Lab 201')">Book</button>
+                    </div>
+                    <div class="club-card">
+                        <div class="club-icon"><i class="fas fa-flask"></i></div>
+                        <div class="club-info">
+                            <h4>Physics Lab</h4>
+                            <p>Science Block • Equipment available</p>
+                        </div>
+                        <button class="register-btn" onclick="quickBook('Physics Lab')">Book</button>
+                    </div>
+                `;
+            }
+        }
+
+        function selectTime(time) {
+            selectedTime = time;
+            const slots = document.querySelectorAll('.time-slot');
+            slots.forEach(slot => {
+                slot.style.background = '#f0f2f5';
+                slot.style.color = '#333';
+            });
+            event.target.style.background = '#667eea';
+            event.target.style.color = 'white';
+        }
+
+        function quickBook(roomName) {
+            alert(`✅ Quick booked: ${roomName}\nCheck your email for confirmation.`);
+            // In real app, this would save to database
+        }
+
+        function confirmBooking() {
+            const room = document.getElementById('roomSelect').value;
+            const date = document.getElementById('bookingDate').value;
+            
+            if (!room || !date || !selectedTime) {
+                alert('Please select room, date, and time');
+                return;
+            }
+
+            alert(`✅ Booking confirmed!\nRoom: ${room}\nDate: ${date}\nTime: ${selectedTime}`);
+            closeModal('bookingModal');
+            
+            // Reset form
+            document.getElementById('roomSelect').selectedIndex = 0;
+            document.getElementById('bookingDate').value = '';
+            selectedTime = '';
+        }
+
+        // ==================== BUDDY HELP FUNCTIONS ====================
+        function filterHelp(type) {
+            const tabs = document.querySelectorAll('.buddy-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const listingsDiv = document.getElementById('helpListings');
+            if (type === 'offering') {
+                listingsDiv.innerHTML = `
+                    <div class="listing-item">
+                        <div>
+                            <strong><i class="fas fa-chalkboard-teacher"></i> Python Tutoring</strong><br>
+                            <small>Alice • 2nd Year CS • Free</small>
+                        </div>
+                        <button class="contact-btn" onclick="contactBuddy('Alice')">Contact</button>
+                    </div>
+                    <div class="listing-item">
+                        <div>
+                            <strong><i class="fas fa-language"></i> Spanish Conversation</strong><br>
+                            <small>Carlos • Native speaker • Free</small>
+                        </div>
+                        <button class="contact-btn" onclick="contactBuddy('Carlos')">Contact</button>
+                    </div>
+                    <div class="listing-item">
+                        <div>
+                            <strong><i class="fas fa-book"></i> Calculus Textbook</strong><br>
+                            <small>Bob • $20 • Like new</small>
+                        </div>
+                        <button class="contact-btn" onclick="contactBuddy('Bob')">Contact</button>
+                    </div>
+                `;
+            } else {
+                listingsDiv.innerHTML = `
+                    <div class="listing-item">
+                        <div>
+                            <strong><i class="fas fa-question"></i> Looking for Gym Partner</strong><br>
+                            <small>Diana • Evenings • Female only</small>
+                        </div>
+                        <button class="contact-btn" onclick="contactBuddy('Diana')">Contact</button>
+                    </div>
+                    <div class="listing-item">
+                        <div>
+                            <strong><i class="fas fa-question"></i> Need Statistics Tutor</strong><br>
+                            <small>Mike • Will pay $15/hr</small>
+                        </div>
+                        <button class="contact-btn" onclick="contactBuddy('Mike')">Contact</button>
+                    </div>
+                    <div class="listing-item">
+                        <div>
+                            <strong><i class="fas fa-question"></i> Looking for used textbooks</strong><br>
+                            <small>Sarah • CS courses • Budget $50</small>
+                        </div>
+                        <button class="contact-btn" onclick="contactBuddy('Sarah')">Contact</button>
+                    </div>
+                `;
+            }
+        }
+
+        function contactBuddy(name) {
+            alert(`📧 To contact ${name}, please email: ${name.toLowerCase()}@university.edu\n(This would open messaging in real app)`);
+        }
+
+        function postHelp() {
+            const type = document.getElementById('helpType').value;
+            const title = document.getElementById('helpTitle').value;
+            const desc = document.getElementById('helpDescription').value;
+            const contact = document.getElementById('helpContact').value;
+
+            if (!title || !desc || !contact) {
+                alert('Please fill all fields');
+                return;
+            }
+
+            alert(`✅ Your listing "${title}" has been posted!`);
+            closeModal('buddyModal');
+            
+            // Reset form
+            document.getElementById('helpTitle').value = '';
+            document.getElementById('helpDescription').value = '';
+            document.getElementById('helpContact').value = '';
+        }
+
+        // ==================== CLUB FUNCTIONS ====================
+        function registerEvent(clubName) {
+            alert(`✅ You've registered for ${clubName} event!\nCheck your email for details.`);
+        }
+
+        function createEvent() {
+            const club = document.getElementById('clubName').value;
+            const title = document.getElementById('eventTitle').value;
+            const date = document.getElementById('eventDate').value;
+            const time = document.getElementById('eventTime').value;
+            const location = document.getElementById('eventLocation').value;
+
+            if (!club || !title || !date || !time || !location) {
+                alert('Please fill all fields');
+                return;
+            }
+
+            alert(`✅ Event "${title}" created for ${club}!`);
+            closeModal('clubModal');
+            
+            // Reset form
+            document.getElementById('clubName').value = '';
+            document.getElementById('eventTitle').value = '';
+            document.getElementById('eventDate').value = '';
+            document.getElementById('eventTime').value = '';
+            document.getElementById('eventLocation').value = '';
+            document.getElementById('eventDescription').value = '';
+        }
+
+        // ==================== OCULUS FUNCTION ====================
+        function openOculus() {
+            // Option 1: Open in new tab
+            window.open('https://oculus.university.edu', '_blank');
+            
+            // Option 2: Show message (since we don't have real portal)
+            alert('🔓 Opening Oculus Portal...\n(This would connect to your university system)');
+        }
+
+        // ==================== REAL-TIME UPDATES ====================
+        function refreshUpdates() {
+            // Simulate real-time updates
+            const updates = [
+                { type: 'cancelled', course: 'MATH201', time: '2:00 PM', lecturer: 'Dr. Johnson' },
+                { type: 'library', occupancy: '45%', seats: 24 },
+                { type: 'cafe', wait: '3 mins', special: 'Pizza Day' }
+            ];
+
+            const updatesList = document.getElementById('updatesList');
+            updatesList.innerHTML = `
+                <div class="update-item update-cancelled">
+                    <strong>⚠️ MATH201 Cancelled</strong><br>
+                    Dr. Johnson - 2:00 PM today
+                </div>
+                <div class="update-item">
+                    <strong>📚 Library</strong><br>
+                    45% occupied • 24 quiet seats available
+                </div>
+                <div class="update-item update-cafe">
+                    <strong>☕ Campus Cafe</strong><br>
+                    Wait time: 3 mins • Today's special: Pizza Day
+                </div>
+            `;
+        }
+
+        // ==================== CHILL SPOTS ====================
+        function showChillSpots() {
+            document.getElementById('chillModal').style.display = 'flex';
+            
+            // Update with real-time recommendations
+            const hour = new Date().getHours();
+            let recommendation = '';
+            
+            if (hour < 10) {
+                recommendation = '<p><i class="fas fa-sun"></i> Morning recommendation: Library Lounge (quiet for studying)</p>';
+            } else if (hour < 15) {
+                recommendation = '<p><i class="fas fa-cloud-sun"></i> Afternoon recommendation: Secret Garden (nice weather today)</p>';
+            } else if (hour < 18) {
+                recommendation = '<p><i class="fas fa-coffee"></i> Evening recommendation: Cafe Corner (grab a coffee)</p>';
+            } else {
+                recommendation = '<p><i class="fas fa-moon"></i> Night recommendation: Rooftop Terrace (great view)</p>';
+            }
+            
+            document.getElementById('chillSpotsList').innerHTML = recommendation + document.getElementById('chillSpotsList').innerHTML;
+        }
+
+        // ==================== SEARCH INPUT EVENT ====================
+        document.getElementById('searchInput').addEventListener('input', searchLocations);
+
+        // ==================== INITIALIZE ====================
+        window.onload = function() {
+            initMap();
+            
+            // Set default date in booking modal to today
+            const today = new Date().toISOString().split('T')[0];
+            if (document.getElementById('bookingDate')) {
+                document.getElementById('bookingDate').value = today;
+            }
+            
+            // Refresh updates every 30 seconds (simulate real-time)
+            setInterval(refreshUpdates, 30000);
+        };
+
+        // ==================== CLOSE SEARCH RESULTS WHEN CLICKING OUTSIDE ====================
+        document.addEventListener('click', function(event) {
+            const searchResults = document.getElementById('searchResults');
+            const searchInput = document.getElementById('searchInput');
+            
+            if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
+                searchResults.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
