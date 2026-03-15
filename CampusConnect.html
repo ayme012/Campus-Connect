@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CampusBuddy - Your Campus Companion</title>
+    <title>Campus Connect - UTS Campus Companion</title>
     
-    <!-- Leaflet CSS for maps -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -81,194 +79,158 @@
             margin: 20px auto;
             padding: 0 20px;
             display: grid;
-            grid-template-columns: 2fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 20px;
         }
 
-        /* Left Column */
-        .left-col {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        /* Search Bar */
-        .search-section {
+        /* Cards */
+        .card {
             background: white;
-            padding: 20px;
             border-radius: 15px;
+            padding: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
         }
 
-        .search-box {
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
             display: flex;
+            align-items: center;
             gap: 10px;
-            margin-top: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f0f2f5;
+            padding-bottom: 10px;
         }
 
-        .search-box input {
-            flex: 1;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
+        .card-header i {
+            font-size: 1.8rem;
+            color: #667eea;
         }
 
-        .search-box input:focus {
-            outline: none;
-            border-color: #667eea;
+        .card-header h3 {
+            color: #333;
+            font-size: 1.3rem;
         }
 
-        .search-box button {
-            background: #667eea;
+        /* Welcome Banner */
+        .welcome-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            border: none;
-            padding: 0 25px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background 0.3s;
+            padding: 30px 5%;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
-        .search-box button:hover {
-            background: #764ba2;
+        .welcome-banner h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
         }
 
-        .search-results {
-            margin-top: 10px;
-            max-height: 200px;
-            overflow-y: auto;
-            display: none;
-        }
-
-        .search-result-item {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .search-result-item:hover {
-            background: #f5f5f5;
-        }
-
-        /* Map Section */
-        .map-section {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        #map {
-            height: 400px;
-            width: 100%;
-            border-radius: 10px;
-            margin-top: 10px;
-            z-index: 1;
+        .welcome-banner p {
+            font-size: 1.2rem;
+            opacity: 0.9;
         }
 
         /* Quick Actions */
         .quick-actions {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+            padding: 0 5%;
         }
 
         .action-card {
             background: white;
-            padding: 15px;
-            border-radius: 10px;
+            padding: 20px;
+            border-radius: 12px;
             text-align: center;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .action-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .action-card:hover i {
+            color: white;
         }
 
         .action-card i {
-            font-size: 2rem;
+            font-size: 2.5rem;
             color: #667eea;
             margin-bottom: 10px;
+            transition: color 0.3s;
         }
 
         .action-card span {
             display: block;
             font-weight: 500;
-        }
-
-        /* Right Column */
-        .right-col {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+            font-size: 1rem;
         }
 
         /* Updates Section */
-        .updates-section {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .section-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            color: #333;
-        }
-
-        .section-title i {
-            color: #667eea;
-            font-size: 1.5rem;
-        }
-
         .update-item {
-            padding: 12px;
+            padding: 15px;
             background: #f8f9fa;
-            border-radius: 8px;
-            margin-bottom: 10px;
+            border-radius: 10px;
+            margin-bottom: 12px;
             border-left: 4px solid #667eea;
+            transition: transform 0.2s;
+        }
+
+        .update-item:hover {
+            transform: translateX(5px);
         }
 
         .update-cancelled {
             border-left-color: #dc3545;
+            background: #fff5f5;
         }
 
         .update-cafe {
             border-left-color: #28a745;
+            background: #f0fff4;
         }
 
-        /* Booking Section */
-        .booking-section {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        .update-library {
+            border-left-color: #ffc107;
+            background: #fff9e6;
         }
 
+        .update-time {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Room Booking */
         .room-type {
             display: flex;
             gap: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
         .room-btn {
             flex: 1;
-            padding: 10px;
+            min-width: 100px;
+            padding: 12px;
             border: 2px solid #e0e0e0;
             background: none;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s;
+            font-weight: 500;
         }
 
         .room-btn.active {
@@ -277,53 +239,26 @@
             border-color: #667eea;
         }
 
-        .time-slots {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin: 15px 0;
+        .room-btn:hover {
+            border-color: #667eea;
         }
 
-        .time-slot {
-            padding: 8px;
-            text-align: center;
-            background: #f0f2f5;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .time-slot:hover {
-            background: #667eea;
-            color: white;
-        }
-
-        .time-slot.booked {
-            background: #dc3545;
-            color: white;
-            cursor: not-allowed;
-            opacity: 0.5;
-        }
-
-        /* Clubs Section */
-        .clubs-section {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .club-card {
+        .room-card {
             display: flex;
             align-items: center;
             gap: 15px;
             padding: 15px;
             background: #f8f9fa;
             border-radius: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            transition: all 0.3s;
         }
 
-        .club-icon {
+        .room-card:hover {
+            background: #e8ecf7;
+        }
+
+        .room-icon {
             width: 50px;
             height: 50px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -335,46 +270,116 @@
             font-size: 1.5rem;
         }
 
+        .room-info {
+            flex: 1;
+        }
+
+        .room-info h4 {
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .room-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .book-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .book-btn:hover {
+            background: #764ba2;
+        }
+
+        /* Club Cards */
+        .club-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+        }
+
+        .club-card:hover {
+            background: #e8ecf7;
+        }
+
+        .club-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+        }
+
+        .club-info {
+            flex: 1;
+        }
+
         .club-info h4 {
             margin-bottom: 5px;
+            color: #333;
         }
 
         .club-info p {
             color: #666;
             font-size: 0.9rem;
+            margin-bottom: 3px;
+        }
+
+        .club-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85rem;
+            color: #888;
         }
 
         .register-btn {
-            background: #667eea;
+            background: #28a745;
             color: white;
             border: none;
-            padding: 5px 15px;
-            border-radius: 5px;
+            padding: 8px 20px;
+            border-radius: 6px;
             cursor: pointer;
-            margin-left: auto;
+            font-weight: 500;
+            transition: background 0.3s;
         }
 
-        /* Buddy Help Section */
-        .buddy-section {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        .register-btn:hover {
+            background: #218838;
         }
 
+        /* Buddy Help */
         .buddy-tabs {
             display: flex;
             gap: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .buddy-tab {
             flex: 1;
-            padding: 10px;
+            padding: 12px;
             border: none;
             background: #f0f2f5;
             border-radius: 8px;
             cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
         }
 
         .buddy-tab.active {
@@ -386,19 +391,134 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px;
+            padding: 15px;
             background: #f8f9fa;
-            border-radius: 8px;
-            margin-bottom: 10px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+        }
+
+        .listing-item:hover {
+            background: #e8ecf7;
+        }
+
+        .listing-info strong {
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .listing-info small {
+            color: #666;
+            display: block;
+            margin-top: 5px;
         }
 
         .contact-btn {
-            background: #28a745;
+            background: #667eea;
             color: white;
             border: none;
-            padding: 5px 15px;
-            border-radius: 5px;
+            padding: 8px 20px;
+            border-radius: 6px;
             cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .contact-btn:hover {
+            background: #764ba2;
+        }
+
+        /* Chill Spots */
+        .chill-spot {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #e8f4fd;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .chill-icon {
+            width: 45px;
+            height: 45px;
+            background: #17a2b8;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+        }
+
+        .chill-details {
+            flex: 1;
+        }
+
+        .spot-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .spot-features {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        .spot-features i {
+            color: #17a2b8;
+            margin-right: 3px;
+        }
+
+        /* Oculus Button */
+        .oculus-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 5%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .oculus-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+            text-decoration: none;
+        }
+
+        .oculus-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+        }
+
+        .oculus-btn i {
+            font-size: 2rem;
+        }
+
+        /* UTS Badge */
+        .uts-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-top: 10px;
+            font-size: 0.9rem;
         }
 
         /* Modal */
@@ -423,94 +543,139 @@
             width: 90%;
             max-height: 80vh;
             overflow-y: auto;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .modal-content h2 {
             margin-bottom: 20px;
             color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .modal-content input, .modal-content textarea, .modal-content select {
+        .modal-content input, 
+        .modal-content textarea, 
+        .modal-content select {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin-bottom: 15px;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .modal-content input:focus,
+        .modal-content textarea:focus,
+        .modal-content select:focus {
+            outline: none;
+            border-color: #667eea;
         }
 
         .modal-content button {
-            background: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 15px 25px;
             border-radius: 8px;
             cursor: pointer;
             width: 100%;
             font-weight: 600;
+            font-size: 1.1rem;
+            transition: transform 0.3s;
+        }
+
+        .modal-content button:hover {
+            transform: scale(1.02);
         }
 
         .close-modal {
             float: right;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
             color: #666;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .time-slot {
+            padding: 10px;
+            text-align: center;
+            background: #f0f2f5;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .time-slot:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .time-slot.selected {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Footer */
+        .footer {
+            background: white;
+            padding: 20px 5%;
+            margin-top: 40px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .container {
-                grid-template-columns: 1fr;
+            .welcome-banner h1 {
+                font-size: 1.8rem;
+            }
+            
+            .nav-links {
+                display: none;
             }
             
             .quick-actions {
                 grid-template-columns: repeat(2, 1fr);
             }
             
-            .nav-links {
-                display: none;
+            .room-type {
+                flex-direction: column;
             }
-        }
-
-        /* Oculus Button */
-        .oculus-btn {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: background 0.3s;
-        }
-
-        .oculus-btn:hover {
-            background: #218838;
-        }
-
-        /* Chill Spots */
-        .chill-spot {
-            padding: 12px;
-            background: #e8f4fd;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            border-left: 4px solid #17a2b8;
-        }
-
-        .spot-name {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .spot-details {
-            display: flex;
-            gap: 15px;
-            font-size: 0.9rem;
-            color: #666;
+            
+            .club-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .club-meta {
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -519,173 +684,276 @@
     <nav class="navbar">
         <div class="logo">
             <i class="fas fa-graduation-cap"></i>
-            <span>CampusBuddy</span>
+            <span>Campus Connect - UTS</span>
         </div>
         <div class="nav-links">
             <a href="#"><i class="fas fa-home"></i> Home</a>
-            <a href="#"><i class="fas fa-map"></i> Map</a>
-            <a href="#"><i class="fas fa-calendar"></i> Schedule</a>
-            <a href="#"><i class="fas fa-users"></i> Clubs</a>
+            <a href="#updates"><i class="fas fa-bell"></i> Updates</a>
+            <a href="#booking"><i class="fas fa-calendar"></i> Booking</a>
+            <a href="#clubs"><i class="fas fa-users"></i> Clubs</a>
+            <a href="#buddy"><i class="fas fa-handshake"></i> Buddy</a>
             <a href="#" class="login-btn"><i class="fas fa-user"></i> Login</a>
         </div>
     </nav>
 
-    <!-- Main Content -->
+    <!-- Welcome Banner -->
+    <div class="welcome-banner">
+        <h1>Welcome to UTS Campus Connect! 👋</h1>
+        <p>Your all-in-one UTS campus companion - Book rooms, join clubs, share skills, and access Oculus!</p>
+        <div class="uts-badge">
+            <i class="fas fa-check-circle"></i> Universiti Teknologi Sultan
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <div class="action-card" onclick="openBookingModal()">
+            <i class="fas fa-door-open"></i>
+            <span>Book Room</span>
+        </div>
+        <div class="action-card" onclick="openBuddyModal()">
+            <i class="fas fa-handshake"></i>
+            <span>Offer Help</span>
+        </div>
+        <div class="action-card" onclick="openClubModal()">
+            <i class="fas fa-calendar-plus"></i>
+            <span>Create Event</span>
+        </div>
+        <div class="action-card" onclick="window.location.href='#chill'">
+            <i class="fas fa-tree"></i>
+            <span>Chill Spots</span>
+        </div>
+        <div class="action-card" onclick="window.location.href='#clubs'">
+            <i class="fas fa-users"></i>
+            <span>Join Club</span>
+        </div>
+        <div class="action-card" onclick="window.location.href='#buddy'">
+            <i class="fas fa-book"></i>
+            <span>Find Books</span>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
     <div class="container">
-        <!-- Left Column -->
-        <div class="left-col">
-            <!-- Search Section -->
-            <div class="search-section">
-                <h3><i class="fas fa-search"></i> Find Anything on Campus</h3>
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="Search for rooms, buildings, offices...">
-                    <button onclick="searchLocations()"><i class="fas fa-arrow-right"></i></button>
-                </div>
-                <div id="searchResults" class="search-results"></div>
+        <!-- Real-time Updates Card -->
+        <div class="card" id="updates">
+            <div class="card-header">
+                <i class="fas fa-bell"></i>
+                <h3>Real-time Updates</h3>
             </div>
-
-            <!-- Map Section -->
-            <div class="map-section">
-                <h3><i class="fas fa-map-marked-alt"></i> Campus Map</h3>
-                <div id="map"></div>
-            </div>
-
-            <!-- Quick Actions -->
-            <div class="quick-actions">
-                <div class="action-card" onclick="openBookingModal()">
-                    <i class="fas fa-door-open"></i>
-                    <span>Book Room</span>
+            <div id="updatesList">
+                <div class="update-item update-cancelled">
+                    <strong>⚠️ CS101 Cancelled</strong>
+                    <p>Dr. Smith - 10:00 AM today</p>
+                    <div class="update-time">2 minutes ago</div>
                 </div>
-                <div class="action-card" onclick="openBuddyModal()">
-                    <i class="fas fa-handshake"></i>
-                    <span>Buddy Help</span>
+                <div class="update-item update-library">
+                    <strong>📚 Library Status</strong>
+                    <p>65% occupied • 12 quiet seats available</p>
+                    <div class="update-time">5 minutes ago</div>
                 </div>
-                <div class="action-card" onclick="openClubModal()">
-                    <i class="fas fa-calendar-plus"></i>
-                    <span>Club Events</span>
+                <div class="update-item update-cafe">
+                    <strong>☕ Campus Cafe</strong>
+                    <p>Wait time: 5 mins • Today's special: Burger Day</p>
+                    <div class="update-time">Just now</div>
                 </div>
-                <div class="action-card" onclick="showChillSpots()">
-                    <i class="fas fa-tree"></i>
-                    <span>Chill Spots</span>
+                <div class="update-item update-cancelled">
+                    <strong>⚠️ MATH201 Rescheduled</strong>
+                    <p>New time: 2:00 PM in Room 305</p>
+                    <div class="update-time">10 minutes ago</div>
                 </div>
             </div>
         </div>
 
-        <!-- Right Column -->
-        <div class="right-col">
-            <!-- Real-time Updates -->
-            <div class="updates-section">
-                <div class="section-title">
-                    <i class="fas fa-bell"></i>
-                    <h3>Real-time Updates</h3>
+        <!-- Room Booking Card -->
+        <div class="card" id="booking">
+            <div class="card-header">
+                <i class="fas fa-calendar-check"></i>
+                <h3>Quick Room Booking</h3>
+            </div>
+            <div class="room-type">
+                <button class="room-btn active" onclick="filterRooms('study')">📚 Study</button>
+                <button class="room-btn" onclick="filterRooms('music')">🎵 Music</button>
+                <button class="room-btn" onclick="filterRooms('lab')">🔬 Lab</button>
+                <button class="room-btn" onclick="filterRooms('meeting')">🤝 Meeting</button>
+            </div>
+            <div id="availableRooms">
+                <div class="room-card">
+                    <div class="room-icon"><i class="fas fa-book"></i></div>
+                    <div class="room-info">
+                        <h4>Study Room 101</h4>
+                        <p>Engineering Block • 4 seats • Whiteboard</p>
+                        <p><small>🕒 Available now</small></p>
+                    </div>
+                    <button class="book-btn" onclick="quickBook('Study Room 101')">Book</button>
                 </div>
-                <div id="updatesList">
-                    <div class="update-item update-cancelled">
-                        <strong>⚠️ CS101 Cancelled</strong><br>
-                        Dr. Smith - 10:00 AM today
+                <div class="room-card">
+                    <div class="room-icon"><i class="fas fa-music"></i></div>
+                    <div class="room-info">
+                        <h4>Music Room A</h4>
+                        <p>Arts Building • Piano, Drums</p>
+                        <p><small>🕒 Free until 3 PM</small></p>
                     </div>
-                    <div class="update-item">
-                        <strong>📚 Library</strong><br>
-                        65% occupied • 12 quiet seats available
+                    <button class="book-btn" onclick="quickBook('Music Room A')">Book</button>
+                </div>
+                <div class="room-card">
+                    <div class="room-icon"><i class="fas fa-flask"></i></div>
+                    <div class="room-info">
+                        <h4>CS Lab 201</h4>
+                        <p>Engineering • 20 computers • Software installed</p>
+                        <p><small>🕒 Available 2-5 PM</small></p>
                     </div>
-                    <div class="update-item update-cafe">
-                        <strong>☕ Campus Cafe</strong><br>
-                        Wait time: 5 mins • Today's special: Burger Day
-                    </div>
+                    <button class="book-btn" onclick="quickBook('CS Lab 201')">Book</button>
                 </div>
             </div>
-
-            <!-- Quick Booking -->
-            <div class="booking-section">
-                <div class="section-title">
-                    <i class="fas fa-calendar-check"></i>
-                    <h3>Quick Book</h3>
-                </div>
-                <div class="room-type">
-                    <button class="room-btn active" onclick="filterRooms('study')">Study Room</button>
-                    <button class="room-btn" onclick="filterRooms('music')">Music Room</button>
-                    <button class="room-btn" onclick="filterRooms('lab')">Lab</button>
-                </div>
-                <div id="availableRooms">
-                    <div class="club-card">
-                        <div class="club-icon"><i class="fas fa-book"></i></div>
-                        <div class="club-info">
-                            <h4>Study Room 101</h4>
-                            <p>Engineering Block • 4 seats</p>
-                        </div>
-                        <button class="register-btn" onclick="quickBook('Study Room 101')">Book</button>
-                    </div>
-                    <div class="club-card">
-                        <div class="club-icon"><i class="fas fa-music"></i></div>
-                        <div class="club-info">
-                            <h4>Music Room A</h4>
-                            <p>Arts Building • Piano available</p>
-                        </div>
-                        <button class="register-btn" onclick="quickBook('Music Room A')">Book</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Club Events -->
-            <div class="clubs-section">
-                <div class="section-title">
-                    <i class="fas fa-users"></i>
-                    <h3>Upcoming Club Events</h3>
-                </div>
-                <div id="clubEvents">
-                    <div class="club-card">
-                        <div class="club-icon"><i class="fas fa-code"></i></div>
-                        <div class="club-info">
-                            <h4>Coding Club</h4>
-                            <p>Hackathon Workshop • Today 5pm</p>
-                        </div>
-                        <button class="register-btn" onclick="registerEvent('Coding Club')">Join</button>
-                    </div>
-                    <div class="club-card">
-                        <div class="club-icon"><i class="fas fa-camera"></i></div>
-                        <div class="club-info">
-                            <h4>Photography Club</h4>
-                            <p>Sunset Shoot • Tomorrow 6pm</p>
-                        </div>
-                        <button class="register-btn" onclick="registerEvent('Photography Club')">Join</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Buddy Help -->
-            <div class="buddy-section">
-                <div class="section-title">
-                    <i class="fas fa-hands-helping"></i>
-                    <h3>Buddy Help</h3>
-                </div>
-                <div class="buddy-tabs">
-                    <button class="buddy-tab active" onclick="filterHelp('offering')">Offering</button>
-                    <button class="buddy-tab" onclick="filterHelp('seeking')">Seeking</button>
-                </div>
-                <div id="helpListings">
-                    <div class="listing-item">
-                        <div>
-                            <strong><i class="fas fa-chalkboard-teacher"></i> Python Tutoring</strong><br>
-                            <small>Alice • 2nd Year CS</small>
-                        </div>
-                        <button class="contact-btn" onclick="contactBuddy('Alice')">Contact</button>
-                    </div>
-                    <div class="listing-item">
-                        <div>
-                            <strong><i class="fas fa-book"></i> Calculus Textbook</strong><br>
-                            <small>Bob • $20 • Like new</small>
-                        </div>
-                        <button class="contact-btn" onclick="contactBuddy('Bob')">Contact</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Oculus Access -->
-            <button class="oculus-btn" onclick="openOculus()">
-                <i class="fas fa-vr-cardboard"></i>
-                Launch Oculus Portal
+            <button class="book-btn" style="width: 100%; margin-top: 10px;" onclick="openBookingModal()">
+                <i class="fas fa-plus-circle"></i> Advanced Booking
             </button>
         </div>
+
+        <!-- Clubs & Events Card -->
+        <div class="card" id="clubs">
+            <div class="card-header">
+                <i class="fas fa-users"></i>
+                <h3>Club Events</h3>
+            </div>
+            <div id="clubEvents">
+                <div class="club-card">
+                    <div class="club-icon"><i class="fas fa-code"></i></div>
+                    <div class="club-info">
+                        <h4>Coding Club</h4>
+                        <p>Hackathon Workshop • Today 5pm</p>
+                        <div class="club-meta">
+                            <span><i class="fas fa-users"></i> 25 going</span>
+                            <span><i class="fas fa-map-pin"></i> CS101</span>
+                        </div>
+                    </div>
+                    <button class="register-btn" onclick="registerEvent('Coding Club')">Join</button>
+                </div>
+                <div class="club-card">
+                    <div class="club-icon"><i class="fas fa-camera"></i></div>
+                    <div class="club-info">
+                        <h4>Photography Club</h4>
+                        <p>Sunset Shoot • Tomorrow 6pm</p>
+                        <div class="club-meta">
+                            <span><i class="fas fa-users"></i> 12 going</span>
+                            <span><i class="fas fa-map-pin"></i> Rooftop</span>
+                        </div>
+                    </div>
+                    <button class="register-btn" onclick="registerEvent('Photography Club')">Join</button>
+                </div>
+                <div class="club-card">
+                    <div class="club-icon"><i class="fas fa-robot"></i></div>
+                    <div class="club-info">
+                        <h4>Robotics Club</h4>
+                        <p>Workshop: Arduino Basics • Wed 3pm</p>
+                        <div class="club-meta">
+                            <span><i class="fas fa-users"></i> 18 going</span>
+                            <span><i class="fas fa-map-pin"></i> Lab 305</span>
+                        </div>
+                    </div>
+                    <button class="register-btn" onclick="registerEvent('Robotics Club')">Join</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buddy Help Card -->
+        <div class="card" id="buddy">
+            <div class="card-header">
+                <i class="fas fa-hands-helping"></i>
+                <h3>Buddy Help</h3>
+            </div>
+            <div class="buddy-tabs">
+                <button class="buddy-tab active" onclick="filterHelp('offering')">🎁 Offering</button>
+                <button class="buddy-tab" onclick="filterHelp('seeking')">🔍 Seeking</button>
+            </div>
+            <div id="helpListings">
+                <div class="listing-item">
+                    <div class="listing-info">
+                        <strong><i class="fas fa-chalkboard-teacher"></i> Python Tutoring</strong>
+                        <small>Alice • 2nd Year CS • Free</small>
+                    </div>
+                    <button class="contact-btn" onclick="contactBuddy('Alice')">Contact</button>
+                </div>
+                <div class="listing-item">
+                    <div class="listing-info">
+                        <strong><i class="fas fa-language"></i> Spanish Conversation</strong>
+                        <small>Carlos • Native speaker • Free</small>
+                    </div>
+                    <button class="contact-btn" onclick="contactBuddy('Carlos')">Contact</button>
+                </div>
+                <div class="listing-item">
+                    <div class="listing-info">
+                        <strong><i class="fas fa-book"></i> Calculus Textbook</strong>
+                        <small>Bob • $20 • Like new, 3rd edition</small>
+                    </div>
+                    <button class="contact-btn" onclick="contactBuddy('Bob')">Contact</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chill Spots Card -->
+        <div class="card" id="chill">
+            <div class="card-header">
+                <i class="fas fa-tree"></i>
+                <h3>Rest & Rewind Spots</h3>
+            </div>
+            <div id="chillSpots">
+                <div class="chill-spot">
+                    <div class="chill-icon"><i class="fas fa-tree"></i></div>
+                    <div class="chill-details">
+                        <div class="spot-name">Secret Garden</div>
+                        <div class="spot-features">
+                            <span><i class="fas fa-users"></i> Low traffic</span>
+                            <span><i class="fas fa-sun"></i> Best afternoon</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="chill-spot">
+                    <div class="chill-icon"><i class="fas fa-book"></i></div>
+                    <div class="chill-details">
+                        <div class="spot-name">Library Lounge</div>
+                        <div class="spot-features">
+                            <span><i class="fas fa-wifi"></i> WiFi</span>
+                            <span><i class="fas fa-quiet"></i> Quiet zone</span>
+                            <span><i class="fas fa-plug"></i> Charging</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="chill-spot">
+                    <div class="chill-icon"><i class="fas fa-coffee"></i></div>
+                    <div class="chill-details">
+                        <div class="spot-name">Cafe Corner</div>
+                        <div class="spot-features">
+                            <span><i class="fas fa-coffee"></i> Coffee nearby</span>
+                            <span><i class="fas fa-wifi"></i> WiFi</span>
+                            <span><i class="fas fa-users"></i> Social spot</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="chill-spot">
+                    <div class="chill-icon"><i class="fas fa-cloud-sun"></i></div>
+                    <div class="chill-details">
+                        <div class="spot-name">Rooftop Terrace</div>
+                        <div class="spot-features">
+                            <span><i class="fas fa-eye"></i> Great view</span>
+                            <span><i class="fas fa-wind"></i> Fresh air</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Oculus Section -->
+    <div class="oculus-section">
+        <a href="https://lus.uts.edu.my/login.php" target="_blank" class="oculus-btn">
+            <i class="fas fa-vr-cardboard"></i>
+            Access Oculus Portal
+            <i class="fas fa-external-link-alt"></i>
+        </a>
+        <p style="margin-top: 15px; color: #666;">One-click access to UTS Oculus - Grades, registration, and academic records</p>
+        <p style="font-size: 0.9rem; color: #888;">lus.uts.edu.my/login.php</p>
     </div>
 
     <!-- Booking Modal -->
@@ -694,10 +962,13 @@
             <span class="close-modal" onclick="closeModal('bookingModal')">&times;</span>
             <h2><i class="fas fa-door-open"></i> Book a Room</h2>
             <select id="roomSelect">
-                <option>Study Room 101 - Engineering</option>
-                <option>Music Room A - Arts</option>
-                <option>CS Lab 201 - CS Building</option>
-                <option>Group Study - Library</option>
+                <option>Study Room 101 - Engineering (4 seats)</option>
+                <option>Study Room 102 - Library (6 seats)</option>
+                <option>Music Room A - Arts (Piano)</option>
+                <option>Music Room B - Arts (Guitars)</option>
+                <option>CS Lab 201 - Engineering (20 computers)</option>
+                <option>Physics Lab - Science Block</option>
+                <option>Meeting Room 1 - Admin Building</option>
             </select>
             <input type="date" id="bookingDate">
             <div class="time-slots">
@@ -707,6 +978,8 @@
                 <div class="time-slot" onclick="selectTime('12:00')">12:00 PM</div>
                 <div class="time-slot" onclick="selectTime('13:00')">1:00 PM</div>
                 <div class="time-slot" onclick="selectTime('14:00')">2:00 PM</div>
+                <div class="time-slot" onclick="selectTime('15:00')">3:00 PM</div>
+                <div class="time-slot" onclick="selectTime('16:00')">4:00 PM</div>
             </div>
             <button onclick="confirmBooking()">Confirm Booking</button>
         </div>
@@ -719,11 +992,12 @@
             <h2><i class="fas fa-handshake"></i> Offer Help</h2>
             <select id="helpType">
                 <option value="skill">Skill (Tutoring, Language, etc.)</option>
-                <option value="resource">Resource (Textbooks, Notes, etc.)</option>
+                <option value="resource">Resource (Textbooks, Notes, Equipment)</option>
+                <option value="service">Service (Ride share, Gym buddy, etc.)</option>
             </select>
             <input type="text" id="helpTitle" placeholder="Title e.g., Python Tutoring">
             <textarea id="helpDescription" placeholder="Description..." rows="3"></textarea>
-            <input type="text" id="helpContact" placeholder="Your email">
+            <input type="text" id="helpContact" placeholder="Your email or phone">
             <button onclick="postHelp()">Post Listing</button>
         </div>
     </div>
@@ -738,128 +1012,36 @@
             <input type="date" id="eventDate">
             <input type="time" id="eventTime">
             <input type="text" id="eventLocation" placeholder="Location">
+            <input type="number" id="eventCapacity" placeholder="Capacity (max people)">
             <textarea id="eventDescription" placeholder="Event Description..." rows="3"></textarea>
             <button onclick="createEvent()">Create Event</button>
         </div>
     </div>
 
-    <!-- Chill Spots Modal -->
-    <div id="chillModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('chillModal')">&times;</span>
-            <h2><i class="fas fa-tree"></i> Relaxation Spots</h2>
-            <div id="chillSpotsList">
-                <div class="chill-spot">
-                    <div class="spot-name">🌳 Secret Garden</div>
-                    <div class="spot-details">
-                        <span><i class="fas fa-users"></i> Low traffic</span>
-                        <span><i class="fas fa-sun"></i> Best afternoon</span>
-                    </div>
-                </div>
-                <div class="chill-spot">
-                    <div class="spot-name">📚 Library Lounge</div>
-                    <div class="spot-details">
-                        <span><i class="fas fa-wifi"></i> WiFi</span>
-                        <span><i class="fas fa-quiet"></i> Quiet zone</span>
-                    </div>
-                </div>
-                <div class="chill-spot">
-                    <div class="spot-name">☕ Cafe Corner</div>
-                    <div class="spot-details">
-                        <span><i class="fas fa-coffee"></i> Coffee nearby</span>
-                        <span><i class="fas fa-plug"></i> Charging ports</span>
-                    </div>
-                </div>
-                <div class="chill-spot">
-                    <div class="spot-name">🏛️ Rooftop Terrace</div>
-                    <div class="spot-details">
-                        <span><i class="fas fa-cloud-sun"></i> Outdoor</span>
-                        <span><i class="fas fa-eye"></i> Great view</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- Footer -->
+    <div class="footer">
+        <p>© 2024 Campus Connect - UTS | Making campus life smarter, not harder</p>
+        <p style="margin-top: 10px; font-size: 0.9rem;">
+            <i class="fas fa-envelope"></i> support@campusconnect.uts.edu.my | 
+            <i class="fas fa-phone"></i> UTS Help: 1234
+        </p>
     </div>
 
-    <!-- Leaflet JavaScript -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    
     <script>
-        // ==================== CAMPUS DATA ====================
-        const campusLocations = [
-            { id: "CS101", name: "Computer Science Lab", building: "Engineering", floor: 2, type: "lab", lat: 40.7128, lng: -74.0060, icon: "💻" },
-            { id: "LIB", name: "Main Library", building: "Library", type: "library", lat: 40.7130, lng: -74.0065, icon: "📚" },
-            { id: "MUSIC", name: "Music Room", building: "Arts", floor: 1, type: "room", lat: 40.7125, lng: -74.0055, icon: "🎵" },
-            { id: "CAFE", name: "Campus Cafe", building: "Student Center", type: "cafe", lat: 40.7122, lng: -74.0058, icon: "☕" },
-            { id: "ENG101", name: "Engineering Lecture Hall", building: "Engineering", floor: 1, type: "classroom", lat: 40.7129, lng: -74.0062, icon: "🔧" },
-            { id: "ADMIN", name: "Admin Office", building: "Administration", type: "office", lat: 40.7132, lng: -74.0059, icon: "📋" }
-        ];
-
-        // ==================== MAP INITIALIZATION ====================
-        let map;
-        let markers = [];
-
-        function initMap() {
-            map = L.map('map').setView([40.7128, -74.0060], 16);
-            
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-
-            // Add markers for all locations
-            campusLocations.forEach(loc => {
-                const marker = L.marker([loc.lat, loc.lng]).addTo(map);
-                marker.bindPopup(`<b>${loc.icon} ${loc.name}</b><br>${loc.building}<br>${loc.type}`);
-                markers.push(marker);
-            });
-        }
-
-        // ==================== SEARCH FUNCTIONALITY ====================
-        function searchLocations() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const resultsDiv = document.getElementById('searchResults');
-            
-            if (query.length < 2) {
-                resultsDiv.style.display = 'none';
-                return;
-            }
-
-            const results = campusLocations.filter(loc => 
-                loc.name.toLowerCase().includes(query) ||
-                loc.building.toLowerCase().includes(query) ||
-                loc.type.toLowerCase().includes(query)
-            );
-
-            if (results.length > 0) {
-                resultsDiv.innerHTML = results.map(loc => 
-                    `<div class="search-result-item" onclick="goToLocation(${loc.lat}, ${loc.lng}, '${loc.name}')">
-                        ${loc.icon} ${loc.name} - ${loc.building}
-                    </div>`
-                ).join('');
-                resultsDiv.style.display = 'block';
-            } else {
-                resultsDiv.innerHTML = '<div class="search-result-item">No locations found</div>';
-                resultsDiv.style.display = 'block';
-            }
-        }
-
-        function goToLocation(lat, lng, name) {
-            map.setView([lat, lng], 18);
-            document.getElementById('searchResults').style.display = 'none';
-            document.getElementById('searchInput').value = name;
-            
-            // Highlight marker
-            markers.forEach(marker => {
-                const markerLatLng = marker.getLatLng();
-                if (markerLatLng.lat === lat && markerLatLng.lng === lng) {
-                    marker.openPopup();
-                }
-            });
-        }
+        // ==================== STATE VARIABLES ====================
+        let selectedTime = '';
+        let currentUser = {
+            name: 'Student',
+            email: 'student@uts.edu.my',
+            isLoggedIn: false
+        };
 
         // ==================== MODAL FUNCTIONS ====================
         function openBookingModal() {
             document.getElementById('bookingModal').style.display = 'flex';
+            // Set default date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('bookingDate').value = today;
         }
 
         function openBuddyModal() {
@@ -868,10 +1050,6 @@
 
         function openClubModal() {
             document.getElementById('clubModal').style.display = 'flex';
-        }
-
-        function showChillSpots() {
-            document.getElementById('chillModal').style.display = 'flex';
         }
 
         function closeModal(modalId) {
@@ -886,70 +1064,97 @@
         }
 
         // ==================== BOOKING FUNCTIONS ====================
-        let selectedTime = '';
-
         function filterRooms(type) {
+            // Update active button
             const buttons = document.querySelectorAll('.room-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             
             // Update available rooms based on type
             const roomsDiv = document.getElementById('availableRooms');
+            
             if (type === 'study') {
                 roomsDiv.innerHTML = `
-                    <div class="club-card">
-                        <div class="club-icon"><i class="fas fa-book"></i></div>
-                        <div class="club-info">
+                    <div class="room-card">
+                        <div class="room-icon"><i class="fas fa-book"></i></div>
+                        <div class="room-info">
                             <h4>Study Room 101</h4>
-                            <p>Engineering Block • 4 seats</p>
+                            <p>Engineering Block • 4 seats • Whiteboard</p>
+                            <p><small>🕒 Available now</small></p>
                         </div>
-                        <button class="register-btn" onclick="quickBook('Study Room 101')">Book</button>
+                        <button class="book-btn" onclick="quickBook('Study Room 101')">Book</button>
                     </div>
-                    <div class="club-card">
-                        <div class="club-icon"><i class="fas fa-book"></i></div>
-                        <div class="club-info">
+                    <div class="room-card">
+                        <div class="room-icon"><i class="fas fa-book"></i></div>
+                        <div class="room-info">
                             <h4>Study Room 102</h4>
-                            <p>Library • 6 seats • Whiteboard</p>
+                            <p>Library • 6 seats • Whiteboard • Projector</p>
+                            <p><small>🕒 Available 1-4 PM</small></p>
                         </div>
-                        <button class="register-btn" onclick="quickBook('Study Room 102')">Book</button>
+                        <button class="book-btn" onclick="quickBook('Study Room 102')">Book</button>
                     </div>
                 `;
             } else if (type === 'music') {
                 roomsDiv.innerHTML = `
-                    <div class="club-card">
-                        <div class="club-icon"><i class="fas fa-music"></i></div>
-                        <div class="club-info">
+                    <div class="room-card">
+                        <div class="room-icon"><i class="fas fa-music"></i></div>
+                        <div class="room-info">
                             <h4>Music Room A</h4>
-                            <p>Arts Building • Piano, Drums</p>
+                            <p>Arts Building • Piano, Drums, Amp</p>
+                            <p><small>🕒 Free until 3 PM</small></p>
                         </div>
-                        <button class="register-btn" onclick="quickBook('Music Room A')">Book</button>
+                        <button class="book-btn" onclick="quickBook('Music Room A')">Book</button>
                     </div>
-                    <div class="club-card">
-                        <div class="club-icon"><i class="fas fa-music"></i></div>
-                        <div class="club-info">
+                    <div class="room-card">
+                        <div class="room-icon"><i class="fas fa-music"></i></div>
+                        <div class="room-info">
                             <h4>Music Room B</h4>
-                            <p>Arts Building • Guitars, Amp</p>
+                            <p>Arts Building • Guitars, Bass, Practice amp</p>
+                            <p><small>🕒 Available 2-6 PM</small></p>
                         </div>
-                        <button class="register-btn" onclick="quickBook('Music Room B')">Book</button>
+                        <button class="book-btn" onclick="quickBook('Music Room B')">Book</button>
                     </div>
                 `;
             } else if (type === 'lab') {
                 roomsDiv.innerHTML = `
-                    <div class="club-card">
-                        <div class="club-icon"><i class="fas fa-flask"></i></div>
-                        <div class="club-info">
+                    <div class="room-card">
+                        <div class="room-icon"><i class="fas fa-flask"></i></div>
+                        <div class="room-info">
                             <h4>CS Lab 201</h4>
-                            <p>Engineering • 20 computers</p>
+                            <p>Engineering • 20 computers • Python, Java installed</p>
+                            <p><small>🕒 Available 2-5 PM</small></p>
                         </div>
-                        <button class="register-btn" onclick="quickBook('CS Lab 201')">Book</button>
+                        <button class="book-btn" onclick="quickBook('CS Lab 201')">Book</button>
                     </div>
-                    <div class="club-card">
-                        <div class="club-icon"><i class="fas fa-flask"></i></div>
-                        <div class="club-info">
+                    <div class="room-card">
+                        <div class="room-icon"><i class="fas fa-flask"></i></div>
+                        <div class="room-info">
                             <h4>Physics Lab</h4>
                             <p>Science Block • Equipment available</p>
+                            <p><small>🕒 Requires supervisor</small></p>
                         </div>
-                        <button class="register-btn" onclick="quickBook('Physics Lab')">Book</button>
+                        <button class="book-btn" onclick="quickBook('Physics Lab')">Book</button>
+                    </div>
+                `;
+            } else if (type === 'meeting') {
+                roomsDiv.innerHTML = `
+                    <div class="room-card">
+                        <div class="room-icon"><i class="fas fa-users"></i></div>
+                        <div class="room-info">
+                            <h4>Meeting Room 1</h4>
+                            <p>Admin Building • Conference table, Projector</p>
+                            <p><small>🕒 Available all day</small></p>
+                        </div>
+                        <button class="book-btn" onclick="quickBook('Meeting Room 1')">Book</button>
+                    </div>
+                    <div class="room-card">
+                        <div class="room-icon"><i class="fas fa-users"></i></div>
+                        <div class="room-info">
+                            <h4>Meeting Room 2</h4>
+                            <p>Student Center • 10 seats, Whiteboard</p>
+                            <p><small>🕒 Available 10 AM - 3 PM</small></p>
+                        </div>
+                        <button class="book-btn" onclick="quickBook('Meeting Room 2')">Book</button>
                     </div>
                 `;
             }
@@ -959,16 +1164,17 @@
             selectedTime = time;
             const slots = document.querySelectorAll('.time-slot');
             slots.forEach(slot => {
-                slot.style.background = '#f0f2f5';
-                slot.style.color = '#333';
+                slot.classList.remove('selected');
             });
-            event.target.style.background = '#667eea';
-            event.target.style.color = 'white';
+            event.target.classList.add('selected');
         }
 
         function quickBook(roomName) {
-            alert(`✅ Quick booked: ${roomName}\nCheck your email for confirmation.`);
-            // In real app, this would save to database
+            if (!currentUser.isLoggedIn) {
+                alert('🔐 Please login to book rooms');
+                return;
+            }
+            alert(`✅ Quick booked: ${roomName}\nConfirmation sent to your email.`);
         }
 
         function confirmBooking() {
@@ -976,17 +1182,27 @@
             const date = document.getElementById('bookingDate').value;
             
             if (!room || !date || !selectedTime) {
-                alert('Please select room, date, and time');
+                alert('Please select room, date and time');
                 return;
             }
 
-            alert(`✅ Booking confirmed!\nRoom: ${room}\nDate: ${date}\nTime: ${selectedTime}`);
+            if (!currentUser.isLoggedIn) {
+                alert('🔐 Please login to confirm booking');
+                return;
+            }
+
+            alert(`✅ Booking Confirmed!\n\nRoom: ${room}\nDate: ${date}\nTime: ${selectedTime}\n\nConfirmation sent to ${currentUser.email}`);
             closeModal('bookingModal');
             
             // Reset form
             document.getElementById('roomSelect').selectedIndex = 0;
-            document.getElementById('bookingDate').value = '';
+            document.getElementById('bookingDate').value = new Date().toISOString().split('T')[0];
             selectedTime = '';
+            
+            // Remove selected class from time slots
+            document.querySelectorAll('.time-slot').forEach(slot => {
+                slot.classList.remove('selected');
+            });
         }
 
         // ==================== BUDDY HELP FUNCTIONS ====================
@@ -996,59 +1212,92 @@
             event.target.classList.add('active');
             
             const listingsDiv = document.getElementById('helpListings');
+            
             if (type === 'offering') {
                 listingsDiv.innerHTML = `
                     <div class="listing-item">
-                        <div>
-                            <strong><i class="fas fa-chalkboard-teacher"></i> Python Tutoring</strong><br>
-                            <small>Alice • 2nd Year CS • Free</small>
+                        <div class="listing-info">
+                            <strong><i class="fas fa-chalkboard-teacher"></i> Python Tutoring</strong>
+                            <small>Alice • 2nd Year CS • Free • Available evenings</small>
                         </div>
                         <button class="contact-btn" onclick="contactBuddy('Alice')">Contact</button>
                     </div>
                     <div class="listing-item">
-                        <div>
-                            <strong><i class="fas fa-language"></i> Spanish Conversation</strong><br>
-                            <small>Carlos • Native speaker • Free</small>
+                        <div class="listing-info">
+                            <strong><i class="fas fa-language"></i> Spanish Conversation</strong>
+                            <small>Carlos • Native speaker • Free • All levels</small>
                         </div>
                         <button class="contact-btn" onclick="contactBuddy('Carlos')">Contact</button>
                     </div>
                     <div class="listing-item">
-                        <div>
-                            <strong><i class="fas fa-book"></i> Calculus Textbook</strong><br>
-                            <small>Bob • $20 • Like new</small>
+                        <div class="listing-info">
+                            <strong><i class="fas fa-calculator"></i> Calculus Tutoring</strong>
+                            <small>Maria • Math major • $15/hr • Available weekends</small>
+                        </div>
+                        <button class="contact-btn" onclick="contactBuddy('Maria')">Contact</button>
+                    </div>
+                    <div class="listing-item">
+                        <div class="listing-info">
+                            <strong><i class="fas fa-book"></i> Calculus Textbook</strong>
+                            <small>Bob • $20 • Like new, 3rd edition • Pickup on campus</small>
                         </div>
                         <button class="contact-btn" onclick="contactBuddy('Bob')">Contact</button>
+                    </div>
+                    <div class="listing-item">
+                        <div class="listing-info">
+                            <strong><i class="fas fa-dumbbell"></i> Gym Partner</strong>
+                            <small>Mike • Looking for workout buddy • M/W/F mornings</small>
+                        </div>
+                        <button class="contact-btn" onclick="contactBuddy('Mike')">Contact</button>
                     </div>
                 `;
             } else {
                 listingsDiv.innerHTML = `
                     <div class="listing-item">
-                        <div>
-                            <strong><i class="fas fa-question"></i> Looking for Gym Partner</strong><br>
-                            <small>Diana • Evenings • Female only</small>
-                        </div>
-                        <button class="contact-btn" onclick="contactBuddy('Diana')">Contact</button>
-                    </div>
-                    <div class="listing-item">
-                        <div>
-                            <strong><i class="fas fa-question"></i> Need Statistics Tutor</strong><br>
-                            <small>Mike • Will pay $15/hr</small>
-                        </div>
-                        <button class="contact-btn" onclick="contactBuddy('Mike')">Contact</button>
-                    </div>
-                    <div class="listing-item">
-                        <div>
-                            <strong><i class="fas fa-question"></i> Looking for used textbooks</strong><br>
-                            <small>Sarah • CS courses • Budget $50</small>
+                        <div class="listing-info">
+                            <strong><i class="fas fa-question"></i> Need Statistics Tutor</strong>
+                            <small>Sarah • Will pay $15/hr • Need help with exam prep</small>
                         </div>
                         <button class="contact-btn" onclick="contactBuddy('Sarah')">Contact</button>
+                    </div>
+                    <div class="listing-item">
+                        <div class="listing-info">
+                            <strong><i class="fas fa-question"></i> Looking for Study Group</strong>
+                            <small>James • CS101 • Meet at library</small>
+                        </div>
+                        <button class="contact-btn" onclick="contactBuddy('James')">Contact</button>
+                    </div>
+                    <div class="listing-item">
+                        <div class="listing-info">
+                            <strong><i class="fas fa-question"></i> Need used textbooks</strong>
+                            <small>Emma • CS courses • Budget $50 each</small>
+                        </div>
+                        <button class="contact-btn" onclick="contactBuddy('Emma')">Contact</button>
+                    </div>
+                    <div class="listing-item">
+                        <div class="listing-info">
+                            <strong><i class="fas fa-question"></i> Looking for Guitar Teacher</strong>
+                            <small>David • Beginner • Can pay $20/hr</small>
+                        </div>
+                        <button class="contact-btn" onclick="contactBuddy('David')">Contact</button>
+                    </div>
+                    <div class="listing-item">
+                        <div class="listing-info">
+                            <strong><i class="fas fa-question"></i> Need Lab Partner</strong>
+                            <small>Lisa • Physics 201 • Flexible schedule</small>
+                        </div>
+                        <button class="contact-btn" onclick="contactBuddy('Lisa')">Contact</button>
                     </div>
                 `;
             }
         }
 
         function contactBuddy(name) {
-            alert(`📧 To contact ${name}, please email: ${name.toLowerCase()}@university.edu\n(This would open messaging in real app)`);
+            if (!currentUser.isLoggedIn) {
+                alert('🔐 Please login to contact buddies');
+                return;
+            }
+            alert(`📧 To contact ${name}:\n\nEmail: ${name.toLowerCase()}@uts.edu.my\n\n(This would open chat in real app)`);
         }
 
         function postHelp() {
@@ -1062,7 +1311,12 @@
                 return;
             }
 
-            alert(`✅ Your listing "${title}" has been posted!`);
+            if (!currentUser.isLoggedIn) {
+                alert('🔐 Please login to post listings');
+                return;
+            }
+
+            alert(`✅ Your listing "${title}" has been posted!\nStudents can contact you at: ${contact}`);
             closeModal('buddyModal');
             
             // Reset form
@@ -1073,7 +1327,11 @@
 
         // ==================== CLUB FUNCTIONS ====================
         function registerEvent(clubName) {
-            alert(`✅ You've registered for ${clubName} event!\nCheck your email for details.`);
+            if (!currentUser.isLoggedIn) {
+                alert('🔐 Please login to register for events');
+                return;
+            }
+            alert(`✅ You're registered for ${clubName} event!\nCheck your email for details and calendar invite.`);
         }
 
         function createEvent() {
@@ -1082,13 +1340,19 @@
             const date = document.getElementById('eventDate').value;
             const time = document.getElementById('eventTime').value;
             const location = document.getElementById('eventLocation').value;
+            const capacity = document.getElementById('eventCapacity').value;
 
-            if (!club || !title || !date || !time || !location) {
+            if (!club || !title || !date || !time || !location || !capacity) {
                 alert('Please fill all fields');
                 return;
             }
 
-            alert(`✅ Event "${title}" created for ${club}!`);
+            if (!currentUser.isLoggedIn) {
+                alert('🔐 Please login to create events');
+                return;
+            }
+
+            alert(`✅ Event "${title}" created for ${club}!\nCapacity: ${capacity} people\nDate: ${date} at ${time}\nLocation: ${location}`);
             closeModal('clubModal');
             
             // Reset form
@@ -1097,72 +1361,112 @@
             document.getElementById('eventDate').value = '';
             document.getElementById('eventTime').value = '';
             document.getElementById('eventLocation').value = '';
+            document.getElementById('eventCapacity').value = '';
             document.getElementById('eventDescription').value = '';
-        }
-
-        // ==================== OCULUS FUNCTION ====================
-        function openOculus() {
-            // Option 1: Open in new tab
-            window.open('https://oculus.university.edu', '_blank');
-            
-            // Option 2: Show message (since we don't have real portal)
-            alert('🔓 Opening Oculus Portal...\n(This would connect to your university system)');
         }
 
         // ==================== REAL-TIME UPDATES ====================
         function refreshUpdates() {
-            // Simulate real-time updates
+            // Simulate real-time updates with random data
             const updates = [
-                { type: 'cancelled', course: 'MATH201', time: '2:00 PM', lecturer: 'Dr. Johnson' },
-                { type: 'library', occupancy: '45%', seats: 24 },
-                { type: 'cafe', wait: '3 mins', special: 'Pizza Day' }
+                { 
+                    type: 'cancelled', 
+                    course: 'MATH201', 
+                    time: '2:00 PM', 
+                    lecturer: 'Dr. Johnson',
+                    minutes: '2 mins ago'
+                },
+                { 
+                    type: 'library', 
+                    occupancy: Math.floor(Math.random() * 40) + 30 + '%', 
+                    seats: Math.floor(Math.random() * 20) + 10,
+                    minutes: 'Just now'
+                },
+                { 
+                    type: 'cafe', 
+                    wait: Math.floor(Math.random() * 5) + 2 + ' mins', 
+                    specials: ['Pizza Day', 'Burger Day', 'Pasta Day', 'Salad Bar'][Math.floor(Math.random() * 4)],
+                    minutes: '1 min ago'
+                },
+                { 
+                    type: 'cancelled', 
+                    course: 'PHY101', 
+                    time: '3:30 PM', 
+                    lecturer: 'Dr. Williams',
+                    minutes: '5 mins ago'
+                }
             ];
 
             const updatesList = document.getElementById('updatesList');
             updatesList.innerHTML = `
                 <div class="update-item update-cancelled">
-                    <strong>⚠️ MATH201 Cancelled</strong><br>
-                    Dr. Johnson - 2:00 PM today
+                    <strong>⚠️ ${updates[0].course} Cancelled</strong>
+                    <p>${updates[0].lecturer} - ${updates[0].time} today</p>
+                    <div class="update-time">${updates[0].minutes}</div>
                 </div>
-                <div class="update-item">
-                    <strong>📚 Library</strong><br>
-                    45% occupied • 24 quiet seats available
+                <div class="update-item update-library">
+                    <strong>📚 Library Status</strong>
+                    <p>${updates[1].occupancy} occupied • ${updates[1].seats} quiet seats available</p>
+                    <div class="update-time">${updates[1].minutes}</div>
                 </div>
                 <div class="update-item update-cafe">
-                    <strong>☕ Campus Cafe</strong><br>
-                    Wait time: 3 mins • Today's special: Pizza Day
+                    <strong>☕ Campus Cafe</strong>
+                    <p>Wait time: ${updates[2].wait} • Today's special: ${updates[2].specials}</p>
+                    <div class="update-time">${updates[2].minutes}</div>
+                </div>
+                <div class="update-item update-cancelled">
+                    <strong>⚠️ ${updates[3].course} Cancelled</strong>
+                    <p>${updates[3].lecturer} - ${updates[3].time} today</p>
+                    <div class="update-time">${updates[3].minutes}</div>
                 </div>
             `;
         }
 
         // ==================== CHILL SPOTS ====================
         function showChillSpots() {
-            document.getElementById('chillModal').style.display = 'flex';
-            
-            // Update with real-time recommendations
+            // Update with time-based recommendations
             const hour = new Date().getHours();
             let recommendation = '';
             
             if (hour < 10) {
-                recommendation = '<p><i class="fas fa-sun"></i> Morning recommendation: Library Lounge (quiet for studying)</p>';
+                recommendation = '🌅 Morning: Library Lounge (quiet for studying)';
             } else if (hour < 15) {
-                recommendation = '<p><i class="fas fa-cloud-sun"></i> Afternoon recommendation: Secret Garden (nice weather today)</p>';
+                recommendation = '☀️ Afternoon: Secret Garden (nice weather today)';
             } else if (hour < 18) {
-                recommendation = '<p><i class="fas fa-coffee"></i> Evening recommendation: Cafe Corner (grab a coffee)</p>';
+                recommendation = '🌆 Evening: Cafe Corner (grab a coffee)';
             } else {
-                recommendation = '<p><i class="fas fa-moon"></i> Night recommendation: Rooftop Terrace (great view)</p>';
+                recommendation = '🌙 Night: Rooftop Terrace (great view)';
             }
             
-            document.getElementById('chillSpotsList').innerHTML = recommendation + document.getElementById('chillSpotsList').innerHTML;
+            // Update first chill spot with recommendation
+            const chillSpots = document.querySelectorAll('.chill-spot');
+            if (chillSpots.length > 0) {
+                const firstSpot = chillSpots[0];
+                firstSpot.style.background = '#d4edda';
+                firstSpot.style.borderLeftColor = '#28a745';
+            }
+            
+            // Show notification
+            alert(`🌟 Recommended chill spot: ${recommendation}`);
         }
 
-        // ==================== SEARCH INPUT EVENT ====================
-        document.getElementById('searchInput').addEventListener('input', searchLocations);
+        // ==================== LOGIN SIMULATION ====================
+        function simulateLogin() {
+            currentUser.isLoggedIn = true;
+            currentUser.name = 'Alex Student';
+            currentUser.email = 'alex@uts.edu.my';
+            
+            // Update login button
+            const loginBtn = document.querySelector('.login-btn');
+            loginBtn.innerHTML = '<i class="fas fa-user-check"></i> Alex';
+            loginBtn.style.background = '#28a745';
+            loginBtn.style.color = 'white !important';
+            
+            alert('✅ Logged in as Alex Student');
+        }
 
         // ==================== INITIALIZE ====================
         window.onload = function() {
-            initMap();
-            
             // Set default date in booking modal to today
             const today = new Date().toISOString().split('T')[0];
             if (document.getElementById('bookingDate')) {
@@ -1171,17 +1475,34 @@
             
             // Refresh updates every 30 seconds (simulate real-time)
             setInterval(refreshUpdates, 30000);
+            
+            // Auto-refresh updates on load
+            setTimeout(refreshUpdates, 5000);
+            
+            // Add click handler to login button
+            document.querySelector('.login-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                simulateLogin();
+            });
+            
+            // Show welcome message
+            console.log('Campus Connect loaded! Ready to help!');
         };
 
-        // ==================== CLOSE SEARCH RESULTS WHEN CLICKING OUTSIDE ====================
-        document.addEventListener('click', function(event) {
-            const searchResults = document.getElementById('searchResults');
-            const searchInput = document.getElementById('searchInput');
-            
-            if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
-                searchResults.style.display = 'none';
-            }
-        });
+        // ==================== HELPER FUNCTIONS ====================
+        function formatDate(date) {
+            return new Date(date).toLocaleDateString('en-US', {
+                weekday: 'short',
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        function showNotification(message, type = 'info') {
+            // Simple alert for now - in real app would be toast notification
+            alert(message);
+        }
     </script>
 </body>
 </html>
